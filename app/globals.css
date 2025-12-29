@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -12,15 +12,140 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background: #000000;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Spotlight Animation */
+.spotlight-container {
+  position: absolute;
+  inset: 0;
+  background: black;
+  animation: spotlight-reveal 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.spotlight {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.05) 40%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  animation: spotlight-grow 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes spotlight-grow {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+    filter: blur(40px);
+  }
+  15% {
+    opacity: 0.3;
+  }
+  30% {
+    width: 700px;
+    height: 700px;
+    opacity: 1;
+    filter: blur(15px);
+  }
+  50% {
+    width: 900px;
+    height: 900px;
+    opacity: 1;
+    filter: blur(12px);
+  }
+  70% {
+    width: 1000px;
+    height: 1000px;
+    opacity: 0.6;
+    filter: blur(8px);
+  }
+  100% {
+    width: 1100px;
+    height: 1100px;
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+@keyframes spotlight-reveal {
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .spotlight {
+    width: 300px;
+    height: 300px;
+  }
+
+  @keyframes spotlight-grow {
+    0% {
+      width: 0px;
+      height: 0px;
+      opacity: 0;
+      filter: blur(30px);
+    }
+    15% {
+      opacity: 0.3;
+    }
+    30% {
+      width: 500px;
+      height: 500px;
+      opacity: 1;
+      filter: blur(15px);
+    }
+    50% {
+      width: 650px;
+      height: 650px;
+      opacity: 1;
+      filter: blur(12px);
+    }
+    70% {
+      width: 750px;
+      height: 750px;
+      opacity: 0.6;
+      filter: blur(8px);
+    }
+    100% {
+      width: 900px;
+      height: 900px;
+      opacity: 0;
+      filter: blur(5px);
+    }
+  }
 }
