@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, memo } from 'react'
 
-export default function AudioPlayer() {
+function AudioPlayer() {
   const [isOpen, setIsOpen] = useState(false)
   const [volume, setVolume] = useState(0.3)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -54,7 +54,7 @@ export default function AudioPlayer() {
 
   return (
     <>
-      <audio ref={audioRef} loop>
+      <audio ref={audioRef} loop preload="metadata">
         <source src="/The Color Of The Fire.mp3" type="audio/mpeg" />
       </audio>
 
@@ -121,3 +121,5 @@ export default function AudioPlayer() {
     </>
   )
 }
+
+export default memo(AudioPlayer)
