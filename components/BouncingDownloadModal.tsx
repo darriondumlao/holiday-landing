@@ -80,16 +80,14 @@ export default function BouncingDownloadModal({
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(imageUrl)
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
+      // Use API route to proxy the download (avoids CORS issues in production)
+      const downloadUrl = `/api/download-image?url=${encodeURIComponent(imageUrl)}&fileName=${encodeURIComponent(downloadFileName)}`
       const a = document.createElement('a')
-      a.href = url
+      a.href = downloadUrl
       a.download = `${downloadFileName}.jpg`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
-      window.URL.revokeObjectURL(url)
     } catch (error) {
       console.error('Error downloading image:', error)
     }
