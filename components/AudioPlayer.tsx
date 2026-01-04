@@ -47,8 +47,18 @@ function AudioPlayer() {
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value)
     setVolume(newVolume)
+    // Unmute and apply volume immediately when the user drags the slider
+    setIsMuted(false)
     if (audioRef.current) {
+      audioRef.current.muted = false
       audioRef.current.volume = newVolume
+      // Start playback if not already playing so volume changes are audible
+      if (!isPlaying) {
+        audioRef.current.play().catch(() => {
+          /* ignore autoplay block; user interaction already occurred */
+        })
+        setIsPlaying(true)
+      }
     }
   }
 
@@ -73,7 +83,7 @@ function AudioPlayer() {
               step="0.01"
               value={volume}
               onChange={handleVolumeChange}
-              className="w-24 h-2 md:h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer volume-slider touch-none"
+            className="w-24 h-2 md:h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer volume-slider"
               style={{
                 background: `linear-gradient(to right, #ffffff ${volume * 100}%, #4b5563 ${volume * 100}%)`,
               }}

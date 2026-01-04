@@ -48,6 +48,7 @@ export default function TickerHeader() {
 
   return (
     <div
+      id="ticker-header"
       className={`fixed top-0 left-0 right-0 z-50 bg-black overflow-hidden transition-opacity duration-1000 ${
         showContent ? 'opacity-100' : 'opacity-0'
       }`}
