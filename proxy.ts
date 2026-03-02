@@ -39,22 +39,6 @@ async function validateCookie(cookieValue: string): Promise<boolean> {
 }
 
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl
-
-  // Allow the auth endpoint through without a cookie
-  if (pathname === '/api/site-auth') {
-    return NextResponse.next()
-  }
-
-  // Gate all other API routes
-  const token = request.cookies.get(COOKIE_NAME)?.value
-  if (!token || !(await validateCookie(token))) {
-    return NextResponse.json(
-      { error: 'Authentication required' },
-      { status: 401 }
-    )
-  }
-
   return NextResponse.next()
 }
 
