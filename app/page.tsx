@@ -178,13 +178,13 @@ export default function Home() {
           enablePan={!isMobile}
           enableRotate
           enableDamping
-          dampingFactor={0.08}
+          dampingFactor={0.12}
           minDistance={isMobile ? 2 : 1}
           maxDistance={isMobile ? 15 : 20}
           minPolarAngle={0}
           maxPolarAngle={Math.PI}
-          zoomSpeed={isMobile ? 0.5 : 0.8}
-          rotateSpeed={isMobile ? 0.4 : 0.6}
+          zoomSpeed={isMobile ? 1 : 0.8}
+          rotateSpeed={isMobile ? 1 : 0.6}
           touches={{
             ONE: TOUCH.ROTATE,
             TWO: TOUCH.DOLLY_ROTATE,
