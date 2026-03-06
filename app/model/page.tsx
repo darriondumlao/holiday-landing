@@ -1,34 +1,27 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stage, useGLTF } from "@react-three/drei";
 
-const DRACO_URL = "https://www.gstatic.com/draco/versioned/decoders/1.5.7/";
+const MODEL_URL = "/codxholiday.glb";
 
-function Model({ showOnly }: { showOnly: "mesh_0" | "mesh_1" | "both" }) {
-  const { scene } = useGLTF("/model.glb", DRACO_URL);
+function Model() {
+  const { scene } = useGLTF(MODEL_URL);
 
   useEffect(() => {
+    console.log("=== MODEL SCENE HIERARCHY ===");
     scene.traverse((child) => {
-      if (child.name === "mesh_0") {
-        child.visible = showOnly === "mesh_0" || showOnly === "both";
-      }
-      if (child.name === "mesh_1") {
-        child.visible = showOnly === "mesh_1" || showOnly === "both";
-      }
+      console.log(`[${child.type}] name="${child.name}" | visible=${child.visible}`);
     });
-  }, [scene, showOnly]);
+  }, [scene]);
 
   return <primitive object={scene} />;
 }
 
-// Preload the model so it starts fetching immediately
-useGLTF.preload("/model.glb", DRACO_URL);
+useGLTF.preload(MODEL_URL);
 
 export default function ModelPage() {
-  const [showOnly, setShowOnly] = useState<"mesh_0" | "mesh_1" | "both">("both");
-
   return (
     <div
       style={{
@@ -39,42 +32,10 @@ export default function ModelPage() {
         touchAction: "none",
       }}
     >
-      {/* Temporary toggle to identify which mesh is the figure */}
-      <div
-        style={{
-          position: "absolute",
-          top: 16,
-          left: 16,
-          zIndex: 10,
-          display: "flex",
-          gap: 8,
-        }}
-      >
-        {(["mesh_0", "mesh_1", "both"] as const).map((opt) => (
-          <button
-            key={opt}
-            onClick={() => setShowOnly(opt)}
-            style={{
-              padding: "8px 16px",
-              background: showOnly === opt ? "#fff" : "#333",
-              color: showOnly === opt ? "#000" : "#fff",
-              border: "none",
-              borderRadius: 4,
-              cursor: "pointer",
-              fontSize: "0.8rem",
-              fontFamily: "var(--font-bebas-neue), sans-serif",
-              letterSpacing: "0.1em",
-            }}
-          >
-            {opt}
-          </button>
-        ))}
-      </div>
-
       <Canvas camera={{ fov: 45 }} shadows>
         <Suspense fallback={null}>
           <Stage environment="city" intensity={0.5} shadows>
-            <Model showOnly={showOnly} />
+            <Model />
           </Stage>
         </Suspense>
         <OrbitControls
