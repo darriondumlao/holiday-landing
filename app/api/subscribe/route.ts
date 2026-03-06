@@ -119,11 +119,15 @@ export async function POST(request: Request) {
     );
 
     if (!subscribeResponse.ok) {
-      return NextResponse.json({ error: 'Failed to subscribe' }, { status: 500 });
+      const errBody = await subscribeResponse.text();
+      console.error('Klaviyo subscribe failed:', subscribeResponse.status, errBody);
+      // Temporarily expose Klaviyo error for debugging
+      return NextResponse.json({ error: 'Failed to subscribe', debug: errBody }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    console.error('Subscribe route error:', err);
     return NextResponse.json({ error: 'Failed to subscribe' }, { status: 500 });
   }
 }
