@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { email, phone, timeSlot, reservationDate } = await request.json();
+    const { email, phone } = await request.json();
 
     if (!email || !phone) {
       return NextResponse.json({ error: 'Email and phone are required' }, { status: 400 });
@@ -82,12 +82,6 @@ export async function POST(request: Request) {
                     attributes: {
                       email: email,
                       phone_number: formattedPhone,
-                      // Custom properties for reservation
-                      properties: {
-                        ...(timeSlot && { reservation_time: timeSlot }),
-                        ...(reservationDate && { reservation_date: reservationDate }),
-                        reservation_source: 'holiday_website'
-                      },
                       subscriptions: {
                         email: {
                           marketing: {
@@ -121,8 +115,7 @@ export async function POST(request: Request) {
     if (!subscribeResponse.ok) {
       const errBody = await subscribeResponse.text();
       console.error('Klaviyo subscribe failed:', subscribeResponse.status, errBody);
-      // Temporarily expose Klaviyo error for debugging
-      return NextResponse.json({ error: 'Failed to subscribe', debug: errBody }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to subscribe' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
