@@ -4,6 +4,7 @@ import { Suspense, useState, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stage, useGLTF } from '@react-three/drei'
 import { motion, AnimatePresence } from 'framer-motion'
+import { TOUCH } from 'three'
 
 const MODEL_URL = '/codxholiday.glb'
 
@@ -59,9 +60,17 @@ export default function Home() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Prevent iOS overscroll / pull-to-refresh
+  // Prevent iOS overscroll / pull-to-refresh (but allow form interaction)
   useEffect(() => {
     const prevent = (e: TouchEvent) => {
+      const target = e.target as HTMLElement
+      // Allow touch on form elements
+      if (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'BUTTON' ||
+        target.tagName === 'FORM' ||
+        target.closest('form')
+      ) return
       if (e.touches.length > 1) return // allow pinch
       e.preventDefault()
     }
@@ -177,8 +186,8 @@ export default function Home() {
           zoomSpeed={isMobile ? 0.5 : 0.8}
           rotateSpeed={isMobile ? 0.4 : 0.6}
           touches={{
-            ONE: 1, // ROTATE
-            TWO: 4, // DOLLY (pinch zoom)
+            ONE: TOUCH.ROTATE,
+            TWO: TOUCH.DOLLY_ROTATE,
           }}
         />
       </Canvas>

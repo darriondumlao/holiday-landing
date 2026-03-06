@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion } from 'framer-motion'
@@ -761,14 +760,6 @@ export default function Home() {
       </div>
       {/* End of Main Home View wrapper */}
 
-      {/* Temporary 3D model link */}
-      <Link
-        href="/model"
-        className="fixed bottom-4 right-4 z-50 bg-white text-black px-4 py-2 rounded-lg text-xs font-bold tracking-wider hover:bg-gray-200 transition-colors"
-        style={{ fontFamily: 'var(--font-bebas-neue), sans-serif', letterSpacing: '0.1em' }}
-      >
-        GO TO MODEL
-      </Link>
 
     </div>
   )
