@@ -6,7 +6,7 @@
 
 import { NextResponse, NextRequest } from 'next/server'
 
-export async function proxy(request: NextRequest) {
+export function proxy(request: NextRequest) {
   return NextResponse.redirect('https://holidaybrand.co', 301)
 }
 
