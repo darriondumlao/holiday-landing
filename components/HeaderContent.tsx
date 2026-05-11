@@ -44,7 +44,13 @@ export default function HeaderContent({ currentView = 'shop', onViewChange }: He
             {(['offline', 'shop'] as ViewMode[]).map((view) => (
               <button
                 key={view}
-                onClick={() => onViewChange(view)}
+                onClick={() => {
+                  if (view === 'shop') {
+                    window.location.href = 'https://holidaybrand.co'
+                    return
+                  }
+                  onViewChange(view)
+                }}
                 className={`px-3 py-1 text-[10px] tracking-wider transition-all duration-200 focus:outline-none ${
                   currentView === view
                     ? 'bg-blue-600 text-white'
@@ -71,7 +77,13 @@ export default function HeaderContent({ currentView = 'shop', onViewChange }: He
             {(['offline', 'shop'] as ViewMode[]).map((view) => (
               <button
                 key={view}
-                onClick={() => onViewChange(view)}
+                onClick={() => {
+                  if (view === 'shop') {
+                    window.location.href = 'https://holidaybrand.co'
+                    return
+                  }
+                  onViewChange(view)
+                }}
                 className={`px-1.5 py-0.5 text-[7px] font-medium tracking-wider transition-all duration-200 touch-manipulation focus:outline-none ${
                   currentView === view
                     ? 'bg-blue-600 text-white'
